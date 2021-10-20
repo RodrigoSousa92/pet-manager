@@ -24,9 +24,14 @@ public class PetController {
     }
 
     //Create a Pet
-    @PostMapping(value = "/createPet", consumes = "aplication/json")
+    @PostMapping(value = "/pets")
     public List<Pet> addPet(@RequestBody @Valid List<PetCreationRQ> petCreationRQS) {
         return petService.save(petCreationRQS);
 
+    }
+    //Delete by Id
+    @DeleteMapping(path = "/pets/{id}")
+    public void deletePet(@PathVariable(value = "id") String petId) {
+        petService.deleteById(petId);
     }
 }

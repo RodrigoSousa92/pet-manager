@@ -34,5 +34,9 @@ public class PetService {
         return petRepository.findAll();
     }
 
+    //Delete pet by Id
+    public void deleteById(String petId) {
+        petRepository.deleteById(petId);
+    }
 }
 
