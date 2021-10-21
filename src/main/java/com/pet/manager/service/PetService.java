@@ -1,5 +1,8 @@
 package com.pet.manager.service;
 
+import com.mongodb.DuplicateKeyException;
+import com.pet.manager.exception.DuplicatedPet;
+import com.pet.manager.exception.PetNotFound;
 import com.pet.manager.model.Pet;
 import com.pet.manager.repository.PetRepository;
 import com.pet.manager.request.PetCreationRQ;
@@ -19,17 +22,22 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
+    //Save Pets List
     public List<Pet> save(List<PetCreationRQ> petCreationRQSList) {
-        List<Pet> newPetList = new ArrayList<>();
-        Pet newPet;
-        for (PetCreationRQ petCreationRQ : petCreationRQSList) {
-            newPet = Pet.builder().petType(petCreationRQ.getPetType()).name(petCreationRQ.getName()).build();
-            petRepository.save(newPet);
-            newPetList.add(newPet);
+        try {
+            List<Pet> newPetList = new ArrayList<>();
+            Pet newPet;
+            for (PetCreationRQ petCreationRQ : petCreationRQSList) {
+                newPet = Pet.builder().petType(petCreationRQ.getPetType()).name(petCreationRQ.getName()).build();
+                petRepository.save(newPet);
+                newPetList.add(newPet);
+            }
+            return newPetList;
+        } catch (DuplicateKeyException exception) {
+            throw new DuplicatedPet();
         }
-        return newPetList;
     }
-
+    //Find All Pets
     public List<Pet> findAll() {
         return petRepository.findAll();
     }
@@ -37,6 +45,11 @@ public class PetService {
     //Delete pet by Id
     public void deleteById(String petId) {
         petRepository.deleteById(petId);
+    }
+    //Find by Id
+    public Pet findById(String petId) {
+
+        return petRepository.findById(petId).orElseThrow(PetNotFound::new);
     }
 }
 
