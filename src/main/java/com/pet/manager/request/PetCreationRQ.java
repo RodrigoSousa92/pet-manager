@@ -16,12 +16,9 @@ import javax.persistence.Enumerated;
 
 public class PetCreationRQ {
 
-    private String id;
-
     private String name;
 
     @Enumerated(EnumType.STRING)
     private PetType petType;
-
 
 }

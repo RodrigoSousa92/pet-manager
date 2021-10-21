@@ -4,7 +4,10 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.persistence.Enumerated;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -13,6 +16,7 @@ import javax.persistence.Enumerated;
 @NoArgsConstructor
 @Builder
 @Document
+@Table(name = "feedPet")
 public class Pet {
 
     @Id
@@ -22,4 +26,8 @@ public class Pet {
 
     @Enumerated
     private PetType petType;
+
+    @Embedded
+    private Feed feed;
+
 }

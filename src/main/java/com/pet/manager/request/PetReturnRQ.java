@@ -11,8 +11,6 @@ import lombok.*;
 
 public class PetReturnRQ {
 
-    private String id;
-
     private String name;
 
     private PetType type;
